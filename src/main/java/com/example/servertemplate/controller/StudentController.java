@@ -42,10 +42,10 @@ public class StudentController {
 	
 	@PostMapping("/")
 	public void addStudent(@RequestBody Student studentReq) {
-		studentService.addStudent(studentReq);
+		studentService.saveStudent(studentReq);
 	}
 	
-	@PutMapping("/")
+	@PutMapping("/{id}")
 	public ResponseEntity<Student> updateStudent(@PathVariable long id, @RequestBody Student studentReq){
 		Optional<Student> optStudent = studentService.getStudent(id);
 		
@@ -54,8 +54,7 @@ public class StudentController {
 			studentObj.setName(studentReq.getName());
 			studentObj.setAge(studentReq.getAge());
 			studentObj.setMajor(studentReq.getMajor());
-			
-			return ResponseEntity.ok(studentObj);
+			return ResponseEntity.ok(studentService.saveStudent(studentObj));
 		} else {
 			return ResponseEntity.notFound().build();
 		}
